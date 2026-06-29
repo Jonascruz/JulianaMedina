@@ -10,15 +10,13 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout
-      uses: actions/checkout@v3
-
-    - name: Deploy via SCP
-      uses: appleboy/scp-action@master
+    - name: Atualizar site via SSH
+      uses: appleboy/ssh-action@master
       with:
         host: ${{ secrets.HOST }}
         username: ${{ secrets.USERNAME }}
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         port: ${{ secrets.PORT }}
-        source: "./*"
-        target: "/home/u222853241/domains/julianamedina.com.br/public_html"
+        script: |
+          cd /home/u222853241/domains/julianamedina.com.br/public_html
+          git pull origin main
