@@ -41,13 +41,13 @@
 <!-- ===================== NAVBAR ===================== -->
 <header class="navbar" id="navbar">
   <div class="navbar__inner container">
-    <a href="#inicio" class="navbar__brand" aria-label="Juliana Medina Psicopedagoga — início">
+    <a href="#inicio" class="navbar__brand" aria-label="Juliana Medina Neuropsicopedagoga — início">
       <span class="navbar__brand-mark" aria-hidden="true">
         <svg viewBox="0 0 32 32" width="28" height="28" fill="none">
           <path d="M16 4c-5 0-8 3.5-8 8 0 2 .6 3.2 1.6 4.4C8.6 17.6 8 19 8 21c0 3.5 2.8 6 6.2 6h.3c.5 1.2 1.6 2 2.9 2h.6c1.7 0 3-1.3 3-3v-1.2c2.4-1 4-3.3 4-6.1 0-1.6-.5-2.9-1.3-4 .8-1.2 1.3-2.7 1.3-4.4 0-3.7-2.8-6.3-7-6.3-.7 0-1.4.1-2 .3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
       </span>
-      <span class="navbar__brand-text">Juliana Medina <small>Psicopedagoga</small></span>
+      <span class="navbar__brand-text">Juliana Medina <small>Neuropsicopedagoga</small></span>
     </a>
 
     <nav class="navbar__nav" id="navMenu" aria-label="Navegação principal">
@@ -233,56 +233,61 @@
     </div>
   </section>
 
-  <!-- ===================== SOBRE ===================== -->
-  <section class="section section--tinted" id="sobre">
+ <section class="section section--tinted" id="sobre">
     <div class="container sobre__grid">
 
-      <div class="sobre__media" data-reveal>
-        <div class="sobre__photo-frame">
-          <div class="sobre__photo-placeholder" role="img" aria-label="Foto profissional de Juliana Medina, psicopedagoga">
-            <svg viewBox="0 0 24 24" width="64" height="64" fill="none" aria-hidden="true"><circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="1.3"/><path d="M4 20c0-4 4-6 8-6s8 2 8 6" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
-            <span>Foto profissional<br>(inserir posteriormente)</span>
-          </div>
-          <div class="sobre__badge">
-            <strong>15+</strong>
-            <span>anos dedicados à<br>aprendizagem infantil</span>
-          </div>
+        <!-- FOTO -->
+        <div class="sobre__media" data-reveal>
+
+            <div class="sobre__photo-frame">
+
+                <img
+                    src="assets/images/JulianaPerfil.png"
+                    width="500"
+                    height="600"
+                    alt="Juliana Medina - Neuropsicopedagoga"
+                    class="sobre__photo">
+
+                <div class="sobre__badge">
+                    <strong>15+</strong>
+                    <span>anos dedicados à<br>aprendizagem infantil</span>
+                </div>
+
+            </div>
+
         </div>
-      </div>
 
-      <div class="sobre__content" data-reveal data-reveal-delay="100">
-        <p class="eyebrow">Sobre a psicopedagoga</p>
-        <h2 class="section__title">Juliana Medina</h2>
-        <p class="sobre__lead">
-          Psicopedagoga clínica e institucional, dedicada a transformar a relação entre crianças,
-          aprendizagem e família. Minha missão é simples: ajudar cada criança a descobrir o próprio
-          caminho de aprender — com método, paciência e respeito ao tempo dela.
-        </p>
+        <!-- TEXTO -->
+        <div class="sobre__content" data-reveal data-reveal-delay="100">
 
-        <ul class="sobre__list">
-         <li><strong>Especializações:</strong> Avaliação e intervenção em TEA, TDAH, Dislexia, Discalculia, Transtornos de Aprendizagem, Deficiência Intelectual, Déficits Cognitivos e Estimulação Cognitiva para crianças, adultos e idosos.</li>
-          <li><strong>Abordagem:</strong> Avaliação criteriosa seguida de intervenção individualizada.</li>
-          <li><strong>Valores:</strong> Escuta ativa, ética profissional e parceria com a família e a escola.</li>
-        </ul>
+            <p class="eyebrow">Sobre a Neuropsicopedagoga</p>
 
-        <div class="stats" id="statsGroup">
-          <div class="stats__item">
-            <span class="stats__number" data-count="300" data-suffix="+">0</span>
-            <span class="stats__label">crianças atendidas</span>
-          </div>
-          <div class="stats__item">
-            <span class="stats__number" data-count="15" data-suffix="+">0</span>
-            <span class="stats__label">anos de experiência</span>
-          </div>
-          <div class="stats__item">
-            <span class="stats__number" data-count="100" data-suffix="%">0</span>
-            <span class="stats__label">atendimento personalizado</span>
-          </div>
+            <h2 class="section__title">
+                Juliana Medina
+            </h2>
+
+            <p class="sobre__lead">
+                Neuropsicopedagoga clínica e institucional, dedicada a transformar a relação entre crianças,
+                aprendizagem e família. Minha missão é simples: ajudar cada criança a descobrir o próprio
+                caminho de aprender — com método, paciência e respeito ao tempo dela.
+            </p>
+
+            <ul class="sobre__list">
+                <li><strong>Especializações:</strong> Avaliação e intervenção em TEA, TDAH, Dislexia, Discalculia, Transtornos de Aprendizagem, Deficiência Intelectual, Déficits Cognitivos e Estimulação Cognitiva para crianças, adultos e idosos.</li>
+
+                <li><strong>Abordagem:</strong> Avaliação criteriosa seguida de intervenção individualizada.</li>
+
+                <li><strong>Valores:</strong> Escuta ativa, ética profissional e parceria com a família e a escola.</li>
+            </ul>
+
+            <div class="stats" id="statsGroup">
+                
+            </div>
+
         </div>
-      </div>
 
     </div>
-  </section>
+</section>
 
   <!-- ===================== CERTIFICADOS ===================== -->
   <section class="section section--compact" id="clinica" aria-label="Certificações">
@@ -654,13 +659,13 @@
   <div class="container footer__grid">
 
     <div class="footer__brand">
-      <a href="#inicio" class="navbar__brand navbar__brand--footer" aria-label="Juliana Medina Psicopedagoga — início">
+      <a href="#inicio" class="navbar__brand navbar__brand--footer" aria-label="Juliana Medina Neuropsicopedagoga — início">
         <span class="navbar__brand-mark" aria-hidden="true">
           <svg viewBox="0 0 32 32" width="26" height="26" fill="none"><path d="M16 4c-5 0-8 3.5-8 8 0 2 .6 3.2 1.6 4.4C8.6 17.6 8 19 8 21c0 3.5 2.8 6 6.2 6h.3c.5 1.2 1.6 2 2.9 2h.6c1.7 0 3-1.3 3-3v-1.2c2.4-1 4-3.3 4-6.1 0-1.6-.5-2.9-1.3-4 .8-1.2 1.3-2.7 1.3-4.4 0-3.7-2.8-6.3-7-6.3-.7 0-1.4.1-2 .3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </span>
-        <span class="navbar__brand-text">Juliana Medina <small>Psicopedagoga</small></span>
+        <span class="navbar__brand-text">Juliana Medina <small>Neuropsicopedagoga</small></span>
       </a>
-      <p>Avaliação e intervenção psicopedagógica com método, ciência e acolhimento.</p>
+      <p>Avaliação e intervenção neuropsicopedagógica com método, ciência e acolhimento.</p>
       <div class="footer__social">
         <a href="#" aria-label="Instagram"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="5" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.5"/><circle cx="17.2" cy="6.8" r="1" fill="currentColor"/></svg></a>
         <a href="#" aria-label="Facebook"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M14 9h3V6h-3c-2 0-3 1.3-3 3v2H8v3h3v7h3v-7h3l1-3h-4V9c0-.4.3-1 1-1z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg></a>
@@ -696,7 +701,7 @@
 
   <div class="footer__bottom">
     <div class="container footer__bottom-inner">
-      <p>&copy; <span id="footerYear"></span> Juliana Medina Psicopedagoga. Todos os direitos reservados.</p>
+      <p>&copy; <span id="footerYear"></span> Juliana MedinaNeuropsicopedagoga. Todos os direitos reservados.</p>
       <p>Desenvolvido com cuidado para transformar vidas através da aprendizagem.</p>
     </div>
   </div>
