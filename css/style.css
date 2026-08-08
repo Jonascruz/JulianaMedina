@@ -905,32 +905,6 @@ h1, h2, h3, h4 {
   50%      { transform: scale(1.05); opacity: 1; }
 }
 
-/* Indicador de scroll */
-.hero__scroll {
-  position: absolute;
-  bottom: 32px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 26px;
-  height: 42px;
-  border: 1.5px solid rgba(58, 46, 51, 0.25);
-  border-radius: 100px;
-  display: flex;
-  justify-content: center;
-  padding-top: 8px;
-}
-.hero__scroll span {
-  width: 4px;
-  height: 8px;
-  background: var(--pink-main-deep);
-  border-radius: 100px;
-  animation: scrollDot 1.8s ease-in-out infinite;
-}
-@keyframes scrollDot {
-  0% { opacity: 1; transform: translateY(0); }
-  100% { opacity: 0; transform: translateY(14px); }
-}
-
 /* ---------- 7. DIFERENCIAIS ---------- */
 .card-glass {
   background: rgba(248, 238, 242, 0.55);
