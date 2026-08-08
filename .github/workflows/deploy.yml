@@ -18,5 +18,6 @@ jobs:
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         port: ${{ secrets.PORT }}
         script: |
-          cd /home/u222853241/domains/julianamedina.com.br/public_html
-          git pull origin main
+          cd /home/***/domains/julianamedina.co***r/public_html
+          git fetch origin
+          git reset --hard origin/main  
