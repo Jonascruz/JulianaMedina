@@ -121,15 +121,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  /* -----------------------------------------------------------------
-     5. CARROSSEL DE CERTIFICADOS — duplica os itens para loop infinito
-     ----------------------------------------------------------------- */
-  const certTrack = document.getElementById('certTrack');
-  if (certTrack) {
-    // Duplica o conteúdo uma vez: a animação CSS translateX(-50%) cria o loop
-    certTrack.innerHTML += certTrack.innerHTML;
-  }
-
+  
   /* -----------------------------------------------------------------
      6. DEPOIMENTOS — slider simples com dots e auto-play
      ----------------------------------------------------------------- */
