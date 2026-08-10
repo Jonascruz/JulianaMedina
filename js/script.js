@@ -341,36 +341,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
     
-  function abrir99Roteador(event) {
-  const userAgent = navigator.userAgent || navigator.vendor || window.opera;
-  const isAndroid = /Android/i.test(userAgent);
-  const isIOS = /iPhone|iPad|iPod/i.test(userAgent);
-
-  // Coordenadas da clínica (Rua Rodrigo Otávio, 420 - Duque de Caxias)
-  const lat = "-22.7885";
-  const lng = "-43.3050";
-  const title = encodeURIComponent("Juliana Medina Neuropsicopedagoga");
-
-  if (isAndroid) {
-    // Evita abrir a URL padrão do href
-    event.preventDefault();
-    // Executa a Intent nativa do Android
-    window.location.href = `intent://call?dropoff_latitude=${lat}&dropoff_longitude=${lng}&dropoff_title=${title}#Intent;scheme=taxis99;package=com.taxis99;S.browser_fallback_url=https%3A%2F%2F99app.com%2Fpassageiro%2F;end`;
-  } else if (isIOS) {
-    // Evita abrir a URL padrão do href
-    event.preventDefault();
-    // Executa o esquema nativo do iOS
-    window.location.href = `taxis99://call?dropoff_latitude=${lat}&dropoff_longitude=${lng}&dropoff_title=${title}`;
-
-    // Fallback se o app não estiver instalado no iPhone
-    setTimeout(() => {
-      window.location.href = "https://99app.com/passageiro/";
-    }, 1500);
-  }
-  // Se for Desktop (Windows/Mac/Linux), o script NÃO executa o preventDefault.
-  // O navegador simplesmente segue o `href` do HTML e abre https://99app.com/passageiro/ em uma nova aba.
-}
-
+  
   /*----------------------------------------------------------------- 
      7. ANO DINÂMICO NO RODAPÉ
   ----------------------------------------------------------------- */
