@@ -340,33 +340,35 @@ document.addEventListener('DOMContentLoaded', () => {
       window.open(`https://wa.me/5521964038012?text=${whatsappMessage}`, '_blank', 'noopener');
     });
   }
-  
-    function abrir99Seguro(event) {
-  const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+    
+  function abrir99Roteador(event) {
+  const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+  const isAndroid = /Android/i.test(userAgent);
+  const isIOS = /iPhone|iPad|iPod/i.test(userAgent);
 
-  if (isMobile) {
+  // Coordenadas da clínica (Rua Rodrigo Otávio, 420 - Duque de Caxias)
+  const lat = "-22.7885";
+  const lng = "-43.3050";
+  const title = encodeURIComponent("Juliana Medina Neuropsicopedagoga");
+
+  if (isAndroid) {
+    // Evita abrir a URL padrão do href
     event.preventDefault();
-    
-    // Coordenadas e parâmetros completos da 99
-    const dropoffLat = "-22.7885";
-    const dropoffLng = "-43.3050";
-    const dropoffTitle = encodeURIComponent("Juliana Medina Neuropsicopedagoga");
+    // Executa a Intent nativa do Android
+    window.location.href = `intent://call?dropoff_latitude=${lat}&dropoff_longitude=${lng}&dropoff_title=${title}#Intent;scheme=taxis99;package=com.taxis99;S.browser_fallback_url=https%3A%2F%2F99app.com%2Fpassageiro%2F;end`;
+  } else if (isIOS) {
+    // Evita abrir a URL padrão do href
+    event.preventDefault();
+    // Executa o esquema nativo do iOS
+    window.location.href = `taxis99://call?dropoff_latitude=${lat}&dropoff_longitude=${lng}&dropoff_title=${title}`;
 
-    // Tenta o esquema direto para abrir o app
-    const appUrl = `taxis99://call?dropoff_latitude=${dropoffLat}&dropoff_longitude=${dropoffLng}&dropoff_title=${dropoffTitle}`;
-    
-    // Dispara a tentativa de abertura
-    window.location.href = appUrl;
-
-    // Fallback limpo: se o app não abrir em 2 segundos, direciona para a página oficial
-    const timeOut = setTimeout(() => {
+    // Fallback se o app não estiver instalado no iPhone
+    setTimeout(() => {
       window.location.href = "https://99app.com/passageiro/";
-    }, 2000);
-
-    // Cancela o timeout caso a página perca o foco (sinal de que o app 99 abriu com sucesso)
-    window.addEventListener('pagehide', () => clearTimeout(timeOut), { once: true });
-    window.addEventListener('blur', () => clearTimeout(timeOut), { once: true });
+    }, 1500);
   }
+  // Se for Desktop (Windows/Mac/Linux), o script NÃO executa o preventDefault.
+  // O navegador simplesmente segue o `href` do HTML e abre https://99app.com/passageiro/ em uma nova aba.
 }
 
   /*----------------------------------------------------------------- 
