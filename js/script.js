@@ -340,8 +340,30 @@ document.addEventListener('DOMContentLoaded', () => {
       window.open(`https://wa.me/5521964038012?text=${whatsappMessage}`, '_blank', 'noopener');
     });
   }
+  
+  function abrirRota99(event) {
+  // Identifica se o dispositivo é celular ou tablet (Android, iPhone, iPad)
+  const isMobileOrTablet = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 
-  /* -----------------------------------------------------------------
+  if (isMobileOrTablet) {
+    // Impede o comportamento padrão do link de abrir a URL do desktop
+    event.preventDefault();
+
+    // Coordenadas da clínica (Rua Rodrigo Otávio, 420 - Duque de Caxias)
+    const lat = "-22.7885";
+    const lng = "-43.3050";
+
+    // 1. Tenta abrir o aplicativo da 99 diretamente no celular/tablet
+    window.location.href = `taxis99://call?dlat=${lat}&dlon=${lng}`;
+
+    // 2. Se o aplicativo não estiver instalado, direciona para o site oficial
+    setTimeout(() => {
+      window.location.href = "https://99app.com/passageiro/";
+    }, 1500);
+  }
+  // Se for Desktop, o script não faz nada e deixa o link `href` do HTML abrir em nova aba.
+  }
+  /*----------------------------------------------------------------- 
      7. ANO DINÂMICO NO RODAPÉ
   ----------------------------------------------------------------- */
   const footerYear = document.getElementById('footerYear');
