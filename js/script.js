@@ -341,28 +341,34 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
   
-  function abrirRota99(event) {
-  // Identifica se o dispositivo é celular ou tablet (Android, iPhone, iPad)
-  const isMobileOrTablet = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    function abrir99Seguro(event) {
+  const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
 
-  if (isMobileOrTablet) {
-    // Impede o comportamento padrão do link de abrir a URL do desktop
+  if (isMobile) {
     event.preventDefault();
+    
+    // Coordenadas e parâmetros completos da 99
+    const dropoffLat = "-22.7885";
+    const dropoffLng = "-43.3050";
+    const dropoffTitle = encodeURIComponent("Juliana Medina Neuropsicopedagoga");
 
-    // Coordenadas da clínica (Rua Rodrigo Otávio, 420 - Duque de Caxias)
-    const lat = "-22.7885";
-    const lng = "-43.3050";
+    // Tenta o esquema direto para abrir o app
+    const appUrl = `taxis99://call?dropoff_latitude=${dropoffLat}&dropoff_longitude=${dropoffLng}&dropoff_title=${dropoffTitle}`;
+    
+    // Dispara a tentativa de abertura
+    window.location.href = appUrl;
 
-    // 1. Tenta abrir o aplicativo da 99 diretamente no celular/tablet
-    window.location.href = `taxis99://call?dlat=${lat}&dlon=${lng}`;
-
-    // 2. Se o aplicativo não estiver instalado, direciona para o site oficial
-    setTimeout(() => {
+    // Fallback limpo: se o app não abrir em 2 segundos, direciona para a página oficial
+    const timeOut = setTimeout(() => {
       window.location.href = "https://99app.com/passageiro/";
-    }, 1500);
+    }, 2000);
+
+    // Cancela o timeout caso a página perca o foco (sinal de que o app 99 abriu com sucesso)
+    window.addEventListener('pagehide', () => clearTimeout(timeOut), { once: true });
+    window.addEventListener('blur', () => clearTimeout(timeOut), { once: true });
   }
-  // Se for Desktop, o script não faz nada e deixa o link `href` do HTML abrir em nova aba.
-  }
+}
+
   /*----------------------------------------------------------------- 
      7. ANO DINÂMICO NO RODAPÉ
   ----------------------------------------------------------------- */
