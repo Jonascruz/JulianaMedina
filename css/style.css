@@ -1537,6 +1537,8 @@ h1, h2, h3, h4 {
   .form-row { grid-template-columns: 1fr; }
   .contact-form { padding: 30px 24px; }
   .footer__grid { grid-template-columns: 1fr; gap: 36px; text-align: left; }
+  .footer__map-img {  height: 150px;  }
+  .footer__route-actions { grid-template-columns: 1fr;  }
   .footer__bottom-inner { flex-direction: column; text-align: center; }
   .whatsapp-float { width: 52px; height: 52px; bottom: 18px; right: 18px; }
 }
