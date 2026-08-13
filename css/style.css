@@ -773,7 +773,7 @@ h1, h2, h3, h4 {
 
   /* impacto: personagem avança para a mão do cérebro */
   48% {
-    transform: translate(36px, -5px) rotate(5.5deg) scale(1.025);
+    transform: translate(21px, -5px) rotate(5.5deg) scale(1.025);
   }
 
   /* reação de comemoração */
@@ -1555,7 +1555,7 @@ h1, h2, h3, h4 {
 
   --person-w: 48%;
   --person-left: 1%;
-  --person-bottom: 13%;
+  --person-bottom: 21%;
 }
 
 .personagem__bob {
