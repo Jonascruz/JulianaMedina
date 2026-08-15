@@ -1167,35 +1167,62 @@ h1, h2, h3, h4 {
 .timeline__body h3 { color: var(--white); font-size: 1.18rem; margin-bottom: 8px; }
 .timeline__body p { color: rgba(255, 255, 255, 0.68); font-size: 0.96rem; max-width: 460px; }
 
-/* ---------- 12. GALERIA ---------- */
-.gallery-grid { display: grid; grid-template-columns: repeat(4, 1fr); grid-auto-rows: 200px; gap: 18px; }
+/* ---------- 12. GALERIA (MASONRY COM AJUSTE MANUAL) ---------- */
+.gallery-grid {
+  column-count: 3;
+  column-gap: 22px;
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
 .gallery-item {
-  grid-column: span 1;
-  border-radius: var(--radius-sm);
-  background: var(--gray-light);
-  border: 1px dashed rgba(85, 85, 85, 0.22);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--gray-mid);
-  font-family: var(--font-utility);
-  font-size: 0.82rem;
-  text-align: center;
+  break-inside: avoid;
+  margin-bottom: 22px;
+  border-radius: var(--radius-md);
+  background: var(--pink-soft);
+  border: 1px solid rgba(233, 183, 199, 0.35);
+  display: block;
   overflow: hidden;
   position: relative;
+  box-shadow: var(--shadow-sm);
+  transition: transform var(--t-fast), box-shadow var(--t-fast);
+}
+
+.gallery-item:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-md);
+}
+
+.gallery-item img {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: cover;
   transition: transform var(--t-fast);
 }
-.gallery-item--lg { grid-column: span 2; }
-.gallery-item:hover { transform: scale(1.02); }
-.gallery-item::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(135deg, rgba(233, 183, 199, 0.18), transparent);
-  opacity: 0;
-  transition: opacity var(--t-fast);
+
+/* ========================================================
+   CONTROLES MANUAIS DA COLUNA 2 (Ajuste os pixels aqui)
+   ======================================================== */
+
+/* 1ª Foto (Menino Caderno) */
+.gallery-item--mid-top img {
+  height: 490px;                /* Aumente/diminua este valor para nivelar */
+  object-position: center 20%;   /* Enquadramento: preserva o topo/rosto */
 }
-.gallery-item:hover::after { opacity: 1; }
+
+/* 2ª Foto (Tatame no chão) */
+.gallery-item--mid-center img {
+  height: 200px;                /* Altura da foto do meio */
+  object-position: center center;
+}
+
+/* 3ª Foto (Menino Pintura) */
+.gallery-item--mid-bottom img {
+  height: 364px;                /* Aumente/diminua este valor para nivelar a base */
+  object-position: center 15%;   /* Enquadramento: foca na criança pintando */
+}
 
 /* ---------- 13. DEPOIMENTOS ---------- */
 .testimonials {
@@ -1485,39 +1512,39 @@ h1, h2, h3, h4 {
 
 @media (max-width: 768px) {
   .testimonials {
-  padding: 0 20px;
-}
-.google-reviews__invite {
-  font-size: 0.9rem;
-  padding: 0 20px;
-}
+    padding: 0 20px;
+  }
+  .google-reviews__invite {
+    font-size: 0.9rem;
+    padding: 0 20px;
+  }
 
-.google-reviews__action {
-  flex-direction: column;
-  align-items: center;
-}
+  .google-reviews__action {
+    flex-direction: column;
+    align-items: center;
+  }
 
-.google-reviews__action .btn {
-  width: 100%;
-  max-width: 320px;
-}
+  .google-reviews__action .btn {
+    width: 100%;
+    max-width: 320px;
+  }
 
-.testimonial-card {
-  padding: 36px 24px;
-}
+  .testimonial-card {
+    padding: 36px 24px;
+  }
 
-.testimonial-card p {
-  font-size: 1rem;
-}
+  .testimonial-card p {
+    font-size: 1rem;
+  }
   .section { padding: 80px 0; }
   .section--compact { padding: 60px 0; }
   .formation-card {
-  padding: 28px 24px;
+    padding: 28px 24px;
   }
 
-.formation-section__note {
-  padding: 22px 20px;
-  font-size: 0.95rem;
+  .formation-section__note {
+    padding: 22px 20px;
+    font-size: 0.95rem;
   }
   .navbar__nav {
     position: fixed;
@@ -1568,42 +1595,38 @@ h1, h2, h3, h4 {
     border-bottom-width: 10px;
   }
 
-  /* reduzir amplitudes (px) do hi-five + float no mobile */
   /* Mobile — ajustes da cena hi-five */
-.hero-scene {
-  width: min(300px, 80vw);
+  .hero-scene {
+    width: min(300px, 80vw);
 
-  --brain-w: 44%;
-  --brain-top: 28%;
-  --brain-right: 2%;
+    --brain-w: 44%;
+    --brain-top: 28%;
+    --brain-right: 2%;
 
-  --person-w: 48%;
-  --person-left: 1%;
-  --person-bottom: 21%;
-}
+    --person-w: 48%;
+    --person-left: 1%;
+    --person-bottom: 21%;
+  }
 
-.personagem__bob {
-  animation:
-    personApproach 1.05s 0.7s both var(--ease),
-    personHighFive 7.2s 1.7s ease-in-out infinite;
-}
+  .personagem__bob {
+    animation:
+      personApproach 1.05s 0.7s both var(--ease),
+      personHighFive 7.2s 1.7s ease-in-out infinite;
+  }
 
-.brain-stage {
-  animation:
-    brainReveal 1.05s 0.7s var(--ease) backwards,
-    brainHighFive 7.2s 1.7s ease-in-out infinite;
-}
+  .brain-stage {
+    animation:
+      brainReveal 1.05s 0.7s var(--ease) backwards,
+      brainHighFive 7.2s 1.7s ease-in-out infinite;
+  }
 
-.brain-stage__img {
-  filter: drop-shadow(0 8px 16px rgba(58,46,51,0.13));
-}
+  .brain-stage__img {
+    filter: drop-shadow(0 8px 16px rgba(58,46,51,0.13));
+  }
 
-.personagem {
-  filter: drop-shadow(0 8px 16px rgba(58,46,51,0.16));
-}
-
-  .brain-stage__img { filter: drop-shadow(0 8px 16px rgba(58,46,51,0.13)); }
-  .personagem      { filter: drop-shadow(0 8px 16px rgba(58,46,51,0.16)); }
+  .personagem {
+    filter: drop-shadow(0 8px 16px rgba(58,46,51,0.16));
+  }
 
   .burst--flash { width: 56px; height: 56px; }
   .burst--ring  { width: 20px; height: 20px; }
@@ -1620,15 +1643,46 @@ h1, h2, h3, h4 {
   .stats__number { font-size: 1.8rem; }
   .timeline::before { left: 23px; }
   .timeline__index { width: 48px; height: 48px; font-size: 0.85rem; }
-  .gallery-grid { grid-template-columns: repeat(2, 1fr); grid-auto-rows: 150px; }
-  .gallery-item--lg { grid-column: span 2; }
+  
+ /* Galeria em 2 colunas para tablets */
+  .gallery-grid {
+    column-count: 2;
+    column-gap: 14px;
+  }
+
+  .gallery-item {
+    margin-bottom: 14px;
+    border-radius: var(--radius-sm);
+  }
+
+  /* RESETA AS ALTURAS: Cada foto volta a ter seu tamanho natural */
+  .gallery-item--mid-top img,
+  .gallery-item--mid-center img,
+  .gallery-item--mid-bottom img {
+    height: auto !important;
+    max-height: none !important;
+    object-position: center center !important;
+  }
+
+
   .form-row { grid-template-columns: 1fr; }
   .contact-form { padding: 30px 24px; }
   .footer__grid { grid-template-columns: 1fr; gap: 36px; text-align: left; }
-  .footer__map-img {  height: 150px;  }
-  .footer__route-actions { grid-template-columns: 1fr;  }
+  .footer__map-img { height: 150px; }
+  .footer__route-actions { grid-template-columns: 1fr; }
   .footer__bottom-inner { flex-direction: column; text-align: center; }
   .whatsapp-float { width: 52px; height: 52px; bottom: 18px; right: 18px; }
+}
+
+@media (max-width: 480px) {
+  /* Galeria em 1 coluna única para celulares */
+  .gallery-grid {
+    column-count: 1;
+  }
+
+  .gallery-item {
+    margin-bottom: 16px;
+  }
 }
 
 /* Mobile (rafio menor(keys) e float no mobile) */
