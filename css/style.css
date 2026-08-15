@@ -1281,12 +1281,24 @@ h1, h2, h3, h4 {
   border: 1px solid rgba(233, 183, 199, 0.22);
 }
 
+.google-reviews__invite {
+  max-width: 620px;
+  margin: 30px auto 0;
+  padding: 0 28px;
+  text-align: center;
+  color: var(--gray-mid);
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
 .google-reviews__action {
   width: 100%;
   display: flex;
   justify-content: center;
-  margin-top: 34px;
+  gap: 14px;
+  margin-top: 18px;
   padding: 0 28px;
+  flex-wrap: wrap;
 }
 
 /* ---------- 14. FAQ ---------- */
@@ -1476,6 +1488,20 @@ h1, h2, h3, h4 {
 @media (max-width: 768px) {
   .testimonials {
   padding: 0 20px;
+}
+.google-reviews__invite {
+  font-size: 0.9rem;
+  padding: 0 20px;
+}
+
+.google-reviews__action {
+  flex-direction: column;
+  align-items: center;
+}
+
+.google-reviews__action .btn {
+  width: 100%;
+  max-width: 320px;
 }
 
 .testimonial-card {
