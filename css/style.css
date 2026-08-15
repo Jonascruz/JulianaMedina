@@ -1295,10 +1295,8 @@ h1, h2, h3, h4 {
   width: 100%;
   display: flex;
   justify-content: center;
-  gap: 14px;
   margin-top: 18px;
   padding: 0 28px;
-  flex-wrap: wrap;
 }
 
 /* ---------- 14. FAQ ---------- */
