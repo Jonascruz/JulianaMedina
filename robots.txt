@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+
+Disallow: /apps/
+Disallow: /docs/
+Disallow: /node_modules/
+Disallow: /avaliar
+
+Sitemap: https://julianamedina.com.br/sitemap.xml
