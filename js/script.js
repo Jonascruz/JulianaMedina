@@ -321,23 +321,70 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   if (form) {
-    form.addEventListener('submit', (e) => {
+    form.addEventListener('submit', async (e) => {
       e.preventDefault();
 
       const isValid = Object.keys(validators).every((fieldName) => validateField(fieldName));
 
       if (!isValid) return;
 
+      const payload = {
+        source: 'landing-page',
+        firstName: getField('respNome')?.value.trim() || '',
+        lastName: '',
+        phone: getField('respTelefone')?.value.trim() || '',
+        whatsapp: getField('respWhatsapp')?.value.trim() || '',
+        email: getField('respEmail')?.value.trim() || '',
+        childName: getField('criancaNome')?.value.trim() || '',
+        birthDate: '',
+        school: '',
+        motivation: getField('motivo')?.value.trim() || '',
+        message: getField('mensagem')?.value.trim() || '',
+      };
+
       if (formSuccess) {
-        formSuccess.textContent =
-          'Mensagem registrada. Para agilizar o atendimento, você também pode chamar pelo WhatsApp.';
+        formSuccess.textContent = 'Enviando sua solicitação…';
+        formSuccess.classList.remove('is-error');
       }
 
-      const whatsappMessage = encodeURIComponent(
-        'Olá, Juliana! Gostaria de solicitar uma avaliação psicopedagógica.'
-      );
+      const apiUrl = window.PUBLIC_LEAD_API_URL || 'https://app.julianamedina.com.br/api/public/leads';
 
-      window.open(`https://wa.me/5521964038012?text=${whatsappMessage}`, '_blank', 'noopener');
+      try {
+        const response = await fetch(apiUrl, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Accept: 'application/json',
+          },
+          body: JSON.stringify(payload),
+          credentials: 'omit',
+        });
+
+        const result = await response.json().catch(() => ({}));
+
+        if (!response.ok || result?.ok === false) {
+          throw new Error(result?.message || 'Não foi possível registrar sua mensagem no momento.');
+        }
+
+        if (formSuccess) {
+          formSuccess.textContent =
+            'Sua solicitação foi registrada com sucesso. Em breve nossa equipe entrará em contato.';
+        }
+      } catch (error) {
+        console.error('Erro ao enviar lead:', error);
+
+        if (formSuccess) {
+          formSuccess.textContent =
+            'Não foi possível registrar automaticamente, mas você pode continuar pelo WhatsApp e nossa equipe vai atender.';
+          formSuccess.classList.add('is-error');
+        }
+      } finally {
+        const whatsappMessage = encodeURIComponent(
+          'Olá, Juliana! Gostaria de solicitar uma avaliação psicopedagógica.'
+        );
+
+        window.open(`https://wa.me/5521964038012?text=${whatsappMessage}`, '_blank', 'noopener');
+      }
     });
   }
     

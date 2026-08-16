@@ -1,0 +1,390 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum RoleName {
+  ADMIN
+  PROPRIETARIA
+}
+
+enum LeadStatus {
+  LEAD
+  EM_AVALIACAO
+  EM_TRATAMENTO
+  INATIVO
+}
+
+enum ContactRelation {
+  RESPONSAVEL
+  MAE
+  PAI
+  AVOS
+  TUTOR
+  OUTRO
+}
+
+enum AttendanceStatus {
+  PRESENCA
+  FALTA_JUSTIFICADA
+  FALTA_NAO_JUSTIFICADA
+  REPOSICAO
+  CANCELAMENTO
+}
+
+enum PaymentStatus {
+  ABERTO
+  PAGO
+  ATRASADO
+  CANCELADO
+}
+
+enum SystemStatus {
+  ATIVO
+  INATIVO
+}
+
+model User {
+  id           String       @id @default(cuid())
+  name         String
+  email        String       @unique
+  passwordHash String
+  avatarUrl    String?
+  status       SystemStatus @default(ATIVO)
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+
+  roles          UserRole[]
+  auditLogs      AuditLog[]
+  passwordResets PasswordReset[]
+}
+
+model Role {
+  id          String     @id @default(cuid())
+  name        RoleName   @unique
+  description String?
+  users       UserRole[]
+}
+
+model UserRole {
+  id        String   @id @default(cuid())
+  userId    String
+  roleId    String
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  role Role @relation(fields: [roleId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, roleId])
+}
+
+model PasswordReset {
+  id        String    @id @default(cuid())
+  userId    String
+  tokenHash String
+  expiresAt DateTime
+  usedAt    DateTime?
+  createdAt DateTime  @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Lead {
+  id             String     @id @default(cuid())
+  source         String?    @default("landing-page")
+  status         LeadStatus @default(LEAD)
+  firstContactAt DateTime?
+  createdAt      DateTime   @default(now())
+  updatedAt      DateTime   @updatedAt
+
+  personId String?
+  person   Person?   @relation(fields: [personId], references: [id], onDelete: SetNull)
+  contacts Contact[]
+  messages Message[]
+  consents Consent[]
+}
+
+model Person {
+  id        String    @id @default(cuid())
+  name      String
+  birthDate DateTime?
+  age       Int?
+  school    String?
+  phone     String?
+  whatsapp  String?
+  email     String?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  lead     Lead[]
+  patient  Patient?
+  student  Student?
+  contacts Contact[]
+  consents Consent[]
+}
+
+model Contact {
+  id        String          @id @default(cuid())
+  leadId    String
+  personId  String?
+  relation  ContactRelation @default(RESPONSAVEL)
+  name      String
+  phone     String?
+  whatsapp  String?
+  email     String?
+  isMain    Boolean         @default(false)
+  createdAt DateTime        @default(now())
+  updatedAt DateTime        @updatedAt
+
+  lead   Lead    @relation(fields: [leadId], references: [id], onDelete: Cascade)
+  person Person? @relation(fields: [personId], references: [id], onDelete: SetNull)
+}
+
+model Patient {
+  id        String       @id @default(cuid())
+  personId  String       @unique
+  startDate DateTime?
+  dueDay    Int?
+  status    SystemStatus @default(ATIVO)
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
+
+  person      Person       @relation(fields: [personId], references: [id], onDelete: Cascade)
+  enrollments Enrollment[] @relation("PatientEnrollments")
+  receivables Receivable[]
+}
+
+model Student {
+  id        String       @id @default(cuid())
+  personId  String       @unique
+  startDate DateTime?
+  dueDay    Int?
+  status    SystemStatus @default(ATIVO)
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
+
+  person      Person       @relation(fields: [personId], references: [id], onDelete: Cascade)
+  enrollments Enrollment[] @relation("StudentEnrollments")
+  receivables Receivable[]
+}
+
+model Professional {
+  id                 String       @id @default(cuid())
+  name               String
+  type               String // Psicopedagoga, Professora, Fonoaudióloga, Outro
+  phone              String?
+  email              String?
+  status             SystemStatus @default(ATIVO)
+  defaultPercent     Decimal?     @db.Decimal(5, 2)
+  defaultTransferDay Int?
+  createdAt          DateTime     @default(now())
+  updatedAt          DateTime     @updatedAt
+
+  classes       ClassRoom[]
+  revenueSplits RevenueSplit[]
+  sessions      Session[]
+}
+
+model Category {
+  id        String       @id @default(cuid())
+  name      String       @unique
+  status    SystemStatus @default(ATIVO)
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
+
+  services Service[]
+}
+
+model Service {
+  id                         String       @id @default(cuid())
+  categoryId                 String
+  name                       String
+  status                     SystemStatus @default(ATIVO)
+  defaultValue               Decimal?     @db.Decimal(10, 2)
+  defaultClinicPercent       Decimal?     @db.Decimal(5, 2)
+  defaultProfessionalPercent Decimal?     @db.Decimal(5, 2)
+  createdAt                  DateTime     @default(now())
+  updatedAt                  DateTime     @updatedAt
+
+  category      Category       @relation(fields: [categoryId], references: [id], onDelete: Restrict)
+  enrollments   Enrollment[]
+  sessions      Session[]
+  revenueSplits RevenueSplit[]
+}
+
+model ClassRoom {
+  id                         String       @id @default(cuid())
+  name                       String
+  professionalId             String
+  daysOfWeek                 String[]
+  schedule                   String?
+  defaultValue               Decimal?     @db.Decimal(10, 2)
+  defaultClinicPercent       Decimal?     @db.Decimal(5, 2)
+  defaultProfessionalPercent Decimal?     @db.Decimal(5, 2)
+  status                     SystemStatus @default(ATIVO)
+  createdAt                  DateTime     @default(now())
+  updatedAt                  DateTime     @updatedAt
+
+  professional Professional @relation(fields: [professionalId], references: [id], onDelete: Restrict)
+  enrollments  Enrollment[]
+}
+
+model Enrollment {
+  id          String       @id @default(cuid())
+  personId    String
+  patientId   String?
+  studentId   String?
+  classRoomId String?
+  serviceId   String?
+  startDate   DateTime
+  dueDay      Int?
+  status      SystemStatus @default(ATIVO)
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+
+  patient     Patient?     @relation("PatientEnrollments", fields: [patientId], references: [id], onDelete: SetNull)
+  student     Student?     @relation("StudentEnrollments", fields: [studentId], references: [id], onDelete: SetNull)
+  classRoom   ClassRoom?   @relation(fields: [classRoomId], references: [id], onDelete: SetNull)
+  service     Service?     @relation(fields: [serviceId], references: [id], onDelete: SetNull)
+  sessions    Session[]
+  attendances Attendance[]
+  receivables Receivable[]
+}
+
+model Session {
+  id             String       @id @default(cuid())
+  enrollmentId   String
+  professionalId String
+  serviceId      String?
+  date           DateTime
+  startTime      String?
+  endTime        String?
+  status         SystemStatus @default(ATIVO)
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+
+  enrollment   Enrollment   @relation(fields: [enrollmentId], references: [id], onDelete: Cascade)
+  professional Professional @relation(fields: [professionalId], references: [id], onDelete: Restrict)
+  service      Service?     @relation(fields: [serviceId], references: [id], onDelete: SetNull)
+  attendances  Attendance[]
+}
+
+model Attendance {
+  id           String           @id @default(cuid())
+  sessionId    String
+  enrollmentId String
+  status       AttendanceStatus
+  date         DateTime
+  time         String?
+  observation  String?
+  createdAt    DateTime         @default(now())
+
+  session    Session    @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  enrollment Enrollment @relation(fields: [enrollmentId], references: [id], onDelete: Cascade)
+}
+
+model Receivable {
+  id           String        @id @default(cuid())
+  patientId    String?
+  studentId    String?
+  enrollmentId String?
+  amount       Decimal       @db.Decimal(10, 2)
+  competence   DateTime
+  dueDate      DateTime
+  discount     Decimal?      @db.Decimal(10, 2)
+  interest     Decimal?      @db.Decimal(10, 2)
+  penalty      Decimal?      @db.Decimal(10, 2)
+  status       PaymentStatus @default(ABERTO)
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+
+  patient    Patient?    @relation(fields: [patientId], references: [id], onDelete: SetNull)
+  student    Student?    @relation(fields: [studentId], references: [id], onDelete: SetNull)
+  enrollment Enrollment? @relation(fields: [enrollmentId], references: [id], onDelete: SetNull)
+  payments   Payment[]
+}
+
+model Payable {
+  id             String        @id @default(cuid())
+  professionalId String?
+  amount         Decimal       @db.Decimal(10, 2)
+  competence     DateTime
+  dueDate        DateTime
+  status         PaymentStatus @default(ABERTO)
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+}
+
+model Payment {
+  id            String    @id @default(cuid())
+  receivableId  String?
+  amount        Decimal   @db.Decimal(10, 2)
+  paidAt        DateTime?
+  paymentMethod String?
+  notes         String?
+  createdAt     DateTime  @default(now())
+
+  receivable Receivable? @relation(fields: [receivableId], references: [id], onDelete: SetNull)
+}
+
+model RevenueSplit {
+  id                  String   @id @default(cuid())
+  serviceId           String?
+  professionalId      String?
+  clinicPercent       Decimal  @db.Decimal(5, 2)
+  professionalPercent Decimal  @db.Decimal(5, 2)
+  createdAt           DateTime @default(now())
+
+  service      Service?      @relation(fields: [serviceId], references: [id], onDelete: SetNull)
+  professional Professional? @relation(fields: [professionalId], references: [id], onDelete: SetNull)
+}
+
+model Message {
+  id        String   @id @default(cuid())
+  leadId    String?
+  direction String // INBOUND | OUTBOUND
+  channel   String // WhatsApp | Email | SMS
+  content   String
+  createdAt DateTime @default(now())
+
+  lead Lead? @relation(fields: [leadId], references: [id], onDelete: SetNull)
+}
+
+model Consent {
+  id              String   @id @default(cuid())
+  personId        String
+  leadId          String?
+  responsibleName String
+  consentDate     DateTime
+  acceptedVersion String
+  createdAt       DateTime @default(now())
+
+  person Person @relation(fields: [personId], references: [id], onDelete: Cascade)
+  lead   Lead?  @relation(fields: [leadId], references: [id], onDelete: SetNull)
+}
+
+model AuditLog {
+  id         String   @id @default(cuid())
+  userId     String?
+  entityType String
+  entityId   String
+  action     String
+  oldValue   Json?
+  newValue   Json?
+  ipAddress  String?
+  createdAt  DateTime @default(now())
+
+  user User? @relation(fields: [userId], references: [id], onDelete: SetNull)
+}
+
+model SystemSetting {
+  id          String   @id @default(cuid())
+  key         String   @unique
+  value       String
+  description String?
+  updatedAt   DateTime @updatedAt
+}
